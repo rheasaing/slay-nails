@@ -17,3 +17,8 @@
 - Result: Displayed Home Service (+₱150) in the price list, added a Home Service checkbox with a demo barangay/area input, and added a live Estimated Total bar.
 - Verified: Checking Home Service adds ₱150 to the total and displays a Home Service badge in Owner Mode; data persists after refresh.
 - Commit: e756bf2
+
+## 4 — Enforce minimum date on calendar picker and minimum name length
+- Prompt: Set the owner date picker minimum date to today and reject customer names shorter than 2 characters. Change only validation and date initialization.
+- Result: Set slotDate.min to today's date and added a 2-character minimum check on customerName.
+- Verified: Past dates are disabled in the date picker; 1-character names show an error message.

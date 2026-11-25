@@ -624,6 +624,9 @@
       el.className = "feedback " + (isError ? "error" : "success");
     }
 
+    // Restrict owner date picker minimum date to today
+    document.getElementById("slotDate").min = getDateOffset(0);
+
     // Owner handler: add a new vacant date and time slot
     document.getElementById("ownerSlotForm").addEventListener("submit", (e) => {
       e.preventDefault();
@@ -665,6 +668,9 @@
 
       if (!customerName) {
         return showFeedback("bookingFeedback", "Please enter your name.", true);
+      }
+      if (customerName.length < 2) {
+        return showFeedback("bookingFeedback", "Customer name must be at least 2 characters.", true);
       }
       if (!serviceId) {
         return showFeedback("bookingFeedback", "Please select a nail service.", true);
