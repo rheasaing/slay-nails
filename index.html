@@ -449,7 +449,6 @@
   </div>
 
   <script>
-    // Offered nail services and fixed prices
     const SERVICES = [
       { id: "soft-gel", name: "Soft Gel Extensions", price: 650 },
       { id: "gel-mani", name: "Gel Manicure", price: 450 },
@@ -466,7 +465,6 @@
     let bookings = [];
     let selectedSlotId = null;
 
-    // Toggle between Customer View (default) and Owner Mode
     const customerModeBtn = document.getElementById("customerModeBtn");
     const ownerModeBtn = document.getElementById("ownerModeBtn");
     const customerSection = document.getElementById("customerSection");
@@ -486,7 +484,6 @@
       customerModeBtn.classList.remove("active");
     });
 
-    // Update live total price when service or Home Service checkbox changes
     const serviceSelectEl = document.getElementById("serviceSelect");
     const homeServiceCheckEl = document.getElementById("homeServiceCheck");
     const homeAddressGroupEl = document.getElementById("homeAddressGroup");
@@ -506,7 +503,6 @@
       updateTotalPrice();
     });
 
-    // Get YYYY-MM-DD string offset by days from today
     function getDateOffset(days) {
       const d = new Date();
       d.setDate(d.getDate() + days);
@@ -516,7 +512,6 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
-    // Format 24-hour time (HH:MM) into readable 12-hour format
     function formatTime(time24) {
       const [hStr, mStr] = time24.split(":");
       let h = parseInt(hStr, 10);
@@ -525,7 +520,6 @@
       return `${h}:${mStr} ${ampm}`;
     }
 
-    // Load slots and bookings from localStorage, or seed sample vacant slots
     function loadState() {
       const savedSlots = localStorage.getItem(SLOTS_KEY);
       const savedBookings = localStorage.getItem(BOOKINGS_KEY);
@@ -545,13 +539,11 @@
       bookings = savedBookings ? JSON.parse(savedBookings) : [];
     }
 
-    // Persist slots and bookings to localStorage
     function saveState() {
       localStorage.setItem(SLOTS_KEY, JSON.stringify(slots));
       localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
     }
 
-    // Render nail services menu (including Home Service add-on) and dropdown options
     function renderServices() {
       const list = document.getElementById("serviceList");
 
@@ -580,7 +572,6 @@
         ).join("");
     }
 
-    // Render interactive slot buttons (booked slots are disabled/unclickable)
     function renderSlots() {
       const grid = document.getElementById("slotsGrid");
       if (slots.length === 0) {
@@ -614,7 +605,6 @@
       });
     }
 
-    // Cancel a booking and reopen its locked time slot
     function cancelBooking(bookingId) {
       const booking = bookings.find((b) => b.id === bookingId);
       if (!booking) return;
@@ -633,7 +623,6 @@
       renderBookings();
     }
 
-    // Render confirmed customer bookings (Owner Mode)
     function renderBookings() {
       const list = document.getElementById("bookingList");
       if (bookings.length === 0) {
@@ -671,10 +660,8 @@
       el.className = "feedback " + (isError ? "error" : "success");
     }
 
-    // Restrict owner date picker minimum date to today
     document.getElementById("slotDate").min = getDateOffset(0);
 
-    // Owner handler: add a new vacant date and time slot
     document.getElementById("ownerSlotForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const date = document.getElementById("slotDate").value;
@@ -705,7 +692,6 @@
       showFeedback("ownerFeedback", "Vacant slot added! Switch to Customer View to see it.", false);
     });
 
-    // Owner handler: remove all unbooked vacant slots
     document.getElementById("clearUnbookedBtn").addEventListener("click", () => {
       slots = slots.filter((s) => s.booked);
       selectedSlotId = null;
@@ -714,7 +700,6 @@
       showFeedback("ownerFeedback", "All unbooked slots removed.", false);
     });
 
-    // Customer handler: book a selected available slot and lock it
     document.getElementById("bookingForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const customerName = document.getElementById("customerName").value.trim();
@@ -770,7 +755,6 @@
       showFeedback("bookingFeedback", `Booking confirmed (Total: ₱${totalPrice})! Your slot is now locked.`, false);
     });
 
-    // Initialize app on page load
     loadState();
     renderServices();
     renderSlots();
