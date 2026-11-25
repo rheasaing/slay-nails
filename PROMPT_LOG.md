@@ -22,3 +22,9 @@
 - Prompt: Set the owner date picker minimum date to today and reject customer names shorter than 2 characters. Change only validation and date initialization.
 - Result: Set slotDate.min to today's date and added a 2-character minimum check on customerName.
 - Verified: Past dates are disabled in the date picker; 1-character names show an error message.
+- Commit: 3f4474a
+
+## 5 — Add button to remove unbooked vacant slots in Owner Mode
+- Prompt: Add a "Remove All Unbooked Slots" button in Owner Mode that clears unbooked slots without affecting already-booked slots.
+- Result: Added clearUnbookedBtn button and click listener that filters out unbooked slots and updates localStorage.
+- Verified: Clicking Remove All Unbooked Slots deletes available slots while keeping booked slots locked.

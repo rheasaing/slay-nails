@@ -238,6 +238,15 @@
       background: var(--primary-dark);
     }
 
+    .btn-secondary {
+      margin-top: 0.5rem;
+      background: #6e5d63;
+    }
+
+    .btn-secondary:hover {
+      background: #524449;
+    }
+
     .feedback {
       margin-top: 0.6rem;
       font-size: 0.88rem;
@@ -412,6 +421,7 @@
             </div>
           </div>
           <button type="submit" class="btn">Add Vacant Slot</button>
+          <button type="button" id="clearUnbookedBtn" class="btn btn-secondary">Remove All Unbooked Slots</button>
           <div class="feedback" id="ownerFeedback"></div>
         </form>
       </section>
@@ -656,6 +666,15 @@
       renderSlots();
       e.target.reset();
       showFeedback("ownerFeedback", "Vacant slot added! Switch to Customer View to see it.", false);
+    });
+
+    // Owner handler: remove all unbooked vacant slots
+    document.getElementById("clearUnbookedBtn").addEventListener("click", () => {
+      slots = slots.filter((s) => s.booked);
+      selectedSlotId = null;
+      saveState();
+      renderSlots();
+      showFeedback("ownerFeedback", "All unbooked slots removed.", false);
     });
 
     // Customer handler: book a selected available slot and lock it
