@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slay Nails — Nail Services Booking</title>
+  <style>
+    :root {
+      --bg: #fff8fa;
+      --card: #ffffff;
+      --primary: #b84a6f;
+      --primary-dark: #8f3252;
+      --accent-soft: #fce8ef;
+      --text: #2d2226;
+      --muted: #6e5d63;
+      --border: #edd5de;
+      --success: #1f7a4c;
+      --error: #b42318;
+      --disabled-bg: #ece8ea;
+      --disabled-text: #8c8286;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1.25rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: linear-gradient(135deg, #fce8ef, #fff0f5);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 1.25rem;
+    }
+
+    header h1 {
+      color: var(--primary-dark);
+      font-size: 1.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Mode Switcher (No login required) */
+    .mode-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .mode-btn {
+      padding: 0.45rem 1rem;
+      border: 1.5px solid var(--primary);
+      background: #fff;
+      color: var(--primary-dark);
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 720px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(143, 50, 82, 0.05);
+      margin-bottom: 1.25rem;
+    }
+
+    h2 {
+      color: var(--primary-dark);
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 2px solid var(--accent-soft);
+      padding-bottom: 0.4rem;
+    }
+
+    /* Services Menu */
+    .service-list {
+      list-style: none;
+    }
+
+    .service-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .service-item:last-child {
+      border-bottom: none;
+    }
+
+    .service-item.addon {
+      background: #fff5f8;
+      border-radius: 8px;
+      margin-top: 0.35rem;
+      border-bottom: none;
+    }
+
+    .service-price {
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--accent-soft);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 0.85rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Home Service Add-on Box */
+    .addon-box {
+      background: #fff5f8;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      cursor: pointer;
+      margin-bottom: 0;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 1.05rem;
+      height: 1.05rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .total-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0.85rem;
+      background: var(--accent-soft);
+      border-radius: 8px;
+      margin-bottom: 0.85rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 0.65rem 1rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .feedback {
+      margin-top: 0.6rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      min-height: 1.2rem;
+    }
+
+    .feedback.error {
+      color: var(--error);
+    }
+
+    .feedback.success {
+      color: var(--success);
+    }
+
+    /* Slot Grid */
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+    }
+
+    .slot-btn {
+      padding: 0.65rem 0.5rem;
+      border: 1.5px solid var(--primary);
+      background: #fff;
+      color: var(--primary-dark);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .slot-btn:hover:not(:disabled) {
+      background: var(--accent-soft);
+    }
+
+    .slot-btn.selected {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .slot-btn:disabled {
+      background: var(--disabled-bg);
+      border-color: #d4cdd0;
+      color: var(--disabled-text);
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    .slot-status {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+    }
+
+    /* Bookings List */
+    .booking-list {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
+    .booking-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.7rem 0.85rem;
+      background: var(--accent-soft);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      font-size: 0.92rem;
+    }
+
+    .badge-home {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      margin-left: 0.35rem;
+    }
+
+    .empty-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Slay Nails</h1>
+      <p>Home-Based &amp; Home-Service Nail Studio &bull; Ipil, Zamboanga Sibugay</p>
+      <div class="mode-bar">
+        <button type="button" class="mode-btn active" id="customerModeBtn">Customer View</button>
+        <button type="button" class="mode-btn" id="ownerModeBtn">Owner Mode</button>
+      </div>
+    </header>
+
+    <!-- CUSTOMER VIEW: Services Menu + Booking Form -->
+    <div id="customerSection">
+      <section class="card">
+        <h2>Nail Services &amp; Prices</h2>
+        <ul class="service-list" id="serviceList"></ul>
+      </section>
+
+      <section class="card">
+        <h2>Book an Appointment</h2>
+        <form id="bookingForm" novalidate>
+          <div class="grid" style="margin-bottom: 0;">
+            <div class="form-group">
+              <label for="customerName">Your Name (Demo / Fictional Name)</label>
+              <input type="text" id="customerName" placeholder="e.g., Maria Santos" />
+            </div>
+            <div class="form-group">
+              <label for="serviceSelect">Select Nail Service</label>
+              <select id="serviceSelect"></select>
+            </div>
+          </div>
+
+          <!-- Home Service Add-on Option -->
+          <div class="addon-box">
+            <label class="checkbox-label" for="homeServiceCheck">
+              <input type="checkbox" id="homeServiceCheck" />
+              <span>Add Home Service (+&#8369;150 additional fee)</span>
+            </label>
+            <div id="homeAddressGroup" class="hidden" style="margin-top: 0.65rem;">
+              <label for="homeAddress">Barangay / Area in Ipil (Demo Data Only)</label>
+              <input type="text" id="homeAddress" placeholder="e.g., Brgy. Poblacion, Ipil" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Select an Available Date &amp; Time Slot (Booked slots are unclickable)</label>
+            <div class="slots-grid" id="slotsGrid"></div>
+          </div>
+
+          <div class="total-bar">
+            <span>Estimated Total:</span>
+            <span id="totalPriceDisplay">&#8369;0</span>
+          </div>
+
+          <button type="submit" class="btn">Confirm Booking</button>
+          <div class="feedback" id="bookingFeedback"></div>
+        </form>
+      </section>
+    </div>
+
+    <!-- OWNER MODE: Post Vacant Slots + View Confirmed Bookings -->
+    <div id="ownerSection" class="hidden">
+      <section class="card">
+        <h2>Owner: Post Vacant Time Slot</h2>
+        <form id="ownerSlotForm" novalidate>
+          <div class="grid" style="margin-bottom: 0;">
+            <div class="form-group">
+              <label for="slotDate">Available Date</label>
+              <input type="date" id="slotDate" />
+            </div>
+            <div class="form-group">
+              <label for="slotTime">Available Time</label>
+              <input type="time" id="slotTime" />
+            </div>
+          </div>
+          <button type="submit" class="btn">Add Vacant Slot</button>
+          <div class="feedback" id="ownerFeedback"></div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Owner: Confirmed Bookings</h2>
+        <ul class="booking-list" id="bookingList"></ul>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Offered nail services and fixed prices
+    const SERVICES = [
+      { id: "soft-gel", name: "Soft Gel Extensions", price: 650 },
+      { id: "gel-mani", name: "Gel Manicure", price: 450 },
+      { id: "biab", name: "BIAB Overlay", price: 550 },
+      { id: "nail-art", name: "Custom Nail Art", price: 250 },
+      { id: "removal", name: "Gel Removal", price: 150 }
+    ];
+
+    const HOME_SERVICE_FEE = 150;
+    const SLOTS_KEY = "slay_nails_slots_v1";
+    const BOOKINGS_KEY = "slay_nails_bookings_v1";
+
+    let slots = [];
+    let bookings = [];
+    let selectedSlotId = null;
+
+    // Toggle between Customer View (default) and Owner Mode
+    const customerModeBtn = document.getElementById("customerModeBtn");
+    const ownerModeBtn = document.getElementById("ownerModeBtn");
+    const customerSection = document.getElementById("customerSection");
+    const ownerSection = document.getElementById("ownerSection");
+
+    customerModeBtn.addEventListener("click", () => {
+      customerSection.classList.remove("hidden");
+      ownerSection.classList.add("hidden");
+      customerModeBtn.classList.add("active");
+      ownerModeBtn.classList.remove("active");
+    });
+
+    ownerModeBtn.addEventListener("click", () => {
+      ownerSection.classList.remove("hidden");
+      customerSection.classList.add("hidden");
+      ownerModeBtn.classList.add("active");
+      customerModeBtn.classList.remove("active");
+    });
+
+    // Update live total price when service or Home Service checkbox changes
+    const serviceSelectEl = document.getElementById("serviceSelect");
+    const homeServiceCheckEl = document.getElementById("homeServiceCheck");
+    const homeAddressGroupEl = document.getElementById("homeAddressGroup");
+    const totalPriceDisplayEl = document.getElementById("totalPriceDisplay");
+
+    function updateTotalPrice() {
+      const selectedService = SERVICES.find((s) => s.id === serviceSelectEl.value);
+      const base = selectedService ? selectedService.price : 0;
+      const addon = homeServiceCheckEl.checked ? HOME_SERVICE_FEE : 0;
+      totalPriceDisplayEl.innerHTML = `&#8369;${base + addon}`;
+    }
+
+    serviceSelectEl.addEventListener("change", updateTotalPrice);
+
+    homeServiceCheckEl.addEventListener("change", () => {
+      homeAddressGroupEl.classList.toggle("hidden", !homeServiceCheckEl.checked);
+      updateTotalPrice();
+    });
+
+    // Get YYYY-MM-DD string offset by days from today
+    function getDateOffset(days) {
+      const d = new Date();
+      d.setDate(d.getDate() + days);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Format 24-hour time (HH:MM) into readable 12-hour format
+    function formatTime(time24) {
+      const [hStr, mStr] = time24.split(":");
+      let h = parseInt(hStr, 10);
+      const ampm = h >= 12 ? "PM" : "AM";
+      h = h % 12 || 12;
+      return `${h}:${mStr} ${ampm}`;
+    }
+
+    // Load slots and bookings from localStorage, or seed sample vacant slots
+    function loadState() {
+      const savedSlots = localStorage.getItem(SLOTS_KEY);
+      const savedBookings = localStorage.getItem(BOOKINGS_KEY);
+
+      if (savedSlots) {
+        slots = JSON.parse(savedSlots);
+      } else {
+        const tomorrow = getDateOffset(1);
+        slots = [
+          { id: "slot-1", date: tomorrow, time: "10:00", booked: false },
+          { id: "slot-2", date: tomorrow, time: "13:30", booked: false },
+          { id: "slot-3", date: tomorrow, time: "16:00", booked: false }
+        ];
+        saveState();
+      }
+
+      bookings = savedBookings ? JSON.parse(savedBookings) : [];
+    }
+
+    // Persist slots and bookings to localStorage
+    function saveState() {
+      localStorage.setItem(SLOTS_KEY, JSON.stringify(slots));
+      localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
+    }
+
+    // Render nail services menu (including Home Service add-on) and dropdown options
+    function renderServices() {
+      const list = document.getElementById("serviceList");
+
+      const servicesHtml = SERVICES.map(
+        (s) => `
+          <li class="service-item">
+            <span>${s.name}</span>
+            <span class="service-price">&#8369;${s.price}</span>
+          </li>
+        `
+      ).join("");
+
+      const homeServiceRow = `
+        <li class="service-item addon">
+          <span><strong>Home Service</strong> (Add-on within Ipil)</span>
+          <span class="service-price">+&#8369;${HOME_SERVICE_FEE}</span>
+        </li>
+      `;
+
+      list.innerHTML = servicesHtml + homeServiceRow;
+
+      serviceSelectEl.innerHTML =
+        `<option value="">-- Choose a nail service --</option>` +
+        SERVICES.map(
+          (s) => `<option value="${s.id}">${s.name} (&#8369;${s.price})</option>`
+        ).join("");
+    }
+
+    // Render interactive slot buttons (booked slots are disabled/unclickable)
+    function renderSlots() {
+      const grid = document.getElementById("slotsGrid");
+      if (slots.length === 0) {
+        grid.innerHTML = `<p class="empty-note">No vacant slots posted yet. Switch to Owner Mode to add slots.</p>`;
+        return;
+      }
+
+      const sorted = [...slots].sort((a, b) =>
+        `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`)
+      );
+
+      grid.innerHTML = "";
+      sorted.forEach((slot) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "slot-btn" + (selectedSlotId === slot.id && !slot.booked ? " selected" : "");
+        btn.disabled = slot.booked;
+        btn.innerHTML = `
+          ${slot.date}<br>${formatTime(slot.time)}
+          <span class="slot-status">${slot.booked ? "Booked" : "Available"}</span>
+        `;
+
+        if (!slot.booked) {
+          btn.addEventListener("click", () => {
+            selectedSlotId = slot.id;
+            renderSlots();
+          });
+        }
+
+        grid.appendChild(btn);
+      });
+    }
+
+    // Render confirmed customer bookings (Owner Mode)
+    function renderBookings() {
+      const list = document.getElementById("bookingList");
+      if (bookings.length === 0) {
+        list.innerHTML = `<li class="empty-note">No bookings yet.</li>`;
+        return;
+      }
+
+      list.innerHTML = bookings
+        .map((b) => {
+          const total = b.totalPrice ?? b.price;
+          const homeBadge = b.homeService
+            ? `<span class="badge-home">Home Service (+&#8369;${HOME_SERVICE_FEE}): ${b.homeAddress}</span>`
+            : "";
+          return `
+            <li class="booking-item">
+              <div>
+                <strong>${b.customerName}</strong> &mdash; ${b.serviceName} (Total: &#8369;${total})
+                ${homeBadge}
+              </div>
+              <div>
+                <strong>${b.date}</strong> at <strong>${formatTime(b.time)}</strong>
+              </div>
+            </li>
+          `;
+        })
+        .join("");
+    }
+
+    function showFeedback(elementId, message, isError) {
+      const el = document.getElementById(elementId);
+      el.textContent = message;
+      el.className = "feedback " + (isError ? "error" : "success");
+    }
+
+    // Owner handler: add a new vacant date and time slot
+    document.getElementById("ownerSlotForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const date = document.getElementById("slotDate").value;
+      const time = document.getElementById("slotTime").value;
+      const today = getDateOffset(0);
+
+      if (!date || !time) {
+        return showFeedback("ownerFeedback", "Please select both a date and time.", true);
+      }
+      if (date < today) {
+        return showFeedback("ownerFeedback", "Past dates are not allowed.", true);
+      }
+      const duplicate = slots.some((s) => s.date === date && s.time === time);
+      if (duplicate) {
+        return showFeedback("ownerFeedback", "That date and time slot already exists.", true);
+      }
+
+      slots.push({
+        id: "slot-" + Date.now(),
+        date,
+        time,
+        booked: false
+      });
+
+      saveState();
+      renderSlots();
+      e.target.reset();
+      showFeedback("ownerFeedback", "Vacant slot added! Switch to Customer View to see it.", false);
+    });
+
+    // Customer handler: book a selected available slot and lock it
+    document.getElementById("bookingForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const customerName = document.getElementById("customerName").value.trim();
+      const serviceId = serviceSelectEl.value;
+      const isHomeService = homeServiceCheckEl.checked;
+      const homeAddress = document.getElementById("homeAddress").value.trim();
+
+      if (!customerName) {
+        return showFeedback("bookingFeedback", "Please enter your name.", true);
+      }
+      if (!serviceId) {
+        return showFeedback("bookingFeedback", "Please select a nail service.", true);
+      }
+      if (isHomeService && !homeAddress) {
+        return showFeedback("bookingFeedback", "Please enter a demo barangay/area for Home Service.", true);
+      }
+      if (!selectedSlotId) {
+        return showFeedback("bookingFeedback", "Please click an available time slot first.", true);
+      }
+
+      const slot = slots.find((s) => s.id === selectedSlotId);
+      if (!slot || slot.booked) {
+        return showFeedback("bookingFeedback", "That slot is already booked.", true);
+      }
+
+      const service = SERVICES.find((sv) => sv.id === serviceId);
+      const totalPrice = service.price + (isHomeService ? HOME_SERVICE_FEE : 0);
+      slot.booked = true;
+
+      bookings.push({
+        id: "book-" + Date.now(),
+        customerName,
+        serviceName: service.name,
+        price: service.price,
+        homeService: isHomeService,
+        homeAddress: isHomeService ? homeAddress : "",
+        totalPrice,
+        slotId: slot.id,
+        date: slot.date,
+        time: slot.time
+      });
+
+      selectedSlotId = null;
+      saveState();
+      renderSlots();
+      renderBookings();
+      e.target.reset();
+      homeAddressGroupEl.classList.add("hidden");
+      updateTotalPrice();
+      showFeedback("bookingFeedback", `Booking confirmed (Total: ₱${totalPrice})! Your slot is now locked.`, false);
+    });
+
+    // Initialize app on page load
+    loadState();
+    renderServices();
+    renderSlots();
+    renderBookings();
+    updateTotalPrice();
+  </script>
+</body>
+</html>
