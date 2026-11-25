@@ -338,6 +338,21 @@
       margin-left: 0.35rem;
     }
 
+    .btn-cancel {
+      padding: 0.35rem 0.75rem;
+      background: var(--error);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-cancel:hover {
+      opacity: 0.9;
+    }
+
     .empty-note {
       color: var(--muted);
       font-size: 0.9rem;
@@ -599,6 +614,25 @@
       });
     }
 
+    // Cancel a booking and reopen its locked time slot
+    function cancelBooking(bookingId) {
+      const booking = bookings.find((b) => b.id === bookingId);
+      if (!booking) return;
+      if (!confirm(`Cancel booking for ${booking.customerName} (${booking.date} at ${formatTime(booking.time)})?`)) {
+        return;
+      }
+
+      const slot = slots.find((s) => s.id === booking.slotId);
+      if (slot) {
+        slot.booked = false;
+      }
+
+      bookings = bookings.filter((b) => b.id !== bookingId);
+      saveState();
+      renderSlots();
+      renderBookings();
+    }
+
     // Render confirmed customer bookings (Owner Mode)
     function renderBookings() {
       const list = document.getElementById("bookingList");
@@ -618,10 +652,13 @@
               <div>
                 <strong>${b.customerName}</strong> &mdash; ${b.serviceName} (Total: &#8369;${total})
                 ${homeBadge}
+                <div style="font-size: 0.85rem; color: var(--muted);">
+                  ${b.date} at ${formatTime(b.time)}
+                </div>
               </div>
-              <div>
-                <strong>${b.date}</strong> at <strong>${formatTime(b.time)}</strong>
-              </div>
+              <button type="button" class="btn-cancel" onclick="cancelBooking('${b.id}')">
+                Cancel Booking
+              </button>
             </li>
           `;
         })
