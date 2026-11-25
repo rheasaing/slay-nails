@@ -28,3 +28,9 @@
 - Prompt: Add a "Remove All Unbooked Slots" button in Owner Mode that clears unbooked slots without affecting already-booked slots.
 - Result: Added clearUnbookedBtn button and click listener that filters out unbooked slots and updates localStorage.
 - Verified: Clicking Remove All Unbooked Slots deletes available slots while keeping booked slots locked.
+- Commit: 29638c9
+
+## 6 — Add Cancel Booking feature that reopens locked time slots
+- Prompt: Add a Cancel Booking button next to each confirmed booking in Owner Mode that asks for confirmation, deletes the booking, and unlocks the time slot so customers can book it again.
+- Result: Added cancelBooking() function and Cancel Booking button in renderBookings() inside index.html.
+- Verified: Canceling a booking removes it from Owner Mode, unlocks the slot in Customer View, and persists across refresh.
